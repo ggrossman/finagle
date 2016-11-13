@@ -200,6 +200,10 @@ object Http extends Client[Request, Response] with HttpRichClient
 
     def withTlsWithoutValidation: Client = withTransport.tlsWithoutValidation
 
+    /**
+     * Configures the maximum size of all headers that the client can
+     * receive from a server.
+     */
     def withMaxHeaderSize(size: StorageUnit): Client =
       configured(http.param.MaxHeaderSize(size))
 
@@ -347,6 +351,13 @@ object Http extends Client[Request, Response] with HttpRichClient
 
     def withTls(cfg: Netty3ListenerTLSConfig): Server =
       configured(Transport.TLSServerEngine(Some(cfg.newEngine)))
+
+    /**
+     * Configures the maximum size of all headers that this server
+     * can receive.
+     */
+    def withMaxHeaderSize(size: StorageUnit): Server =
+      configured(http.param.MaxHeaderSize(size))
 
     /**
      * Configures the maximum request size this server can receive.
